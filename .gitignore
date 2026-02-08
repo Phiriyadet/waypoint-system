@@ -1,0 +1,470 @@
+# ============================================
+# WayPoint System - Complete .gitignore
+# Multi-project: Backend (.NET) + Web (Next.js) + Mobile (React Native)
+# ============================================
+
+# ============================================
+# SECURITY - NEVER COMMIT
+# ============================================
+*.env
+*.env.local
+*.env.production
+*.env.development
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+secrets/
+credentials/
+**/appsettings.Production.json
+**/appsettings.Staging.json
+**/*secrets*.json
+**/*credentials*.json
+
+# API Keys & Tokens (double-check!)
+**/google-services.json
+**/GoogleService-Info.plist
+firebase-*.json
+
+# ============================================
+# ROOT LEVEL
+# ============================================
+*.log
+*.log.*
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+!.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================
+# BACKEND (.NET 8/9)
+# ============================================
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Mono auto generated files
+mono_crash.*
+
+# Visual Studio
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.filters
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# .NET Aspire
+**/.aspire/
+**/aspire-manifest.json
+**/.aspire-cache/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Entity Framework Migrations (keep tracked, but backup)
+# **/Migrations/*.Designer.cs
+# **/Migrations/*.cs.user
+
+# Test Results
+**/TestResults/
+**/*.trx
+**/*.coverage
+**/*.coveragexml
+
+# Code Coverage
+**/coverage/
+**/coverage.json
+**/coverage.xml
+**/coverage.info
+**/.nyc_output/
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# ============================================
+# FRONTEND - Next.js (Web Admin)
+# ============================================
+
+# Dependencies
+**/node_modules/
+**/.pnp
+**/.pnp.js
+
+# Next.js
+**/.next/
+**/out/
+**/.swc/
+**/next-env.d.ts
+
+# Production build
+**/build/
+**/dist/
+
+# Vercel
+**/.vercel
+
+# Testing
+**/coverage/
+**/.nyc_output/
+
+# Storybook
+**/storybook-static/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Turbo
+**/.turbo
+
+# ============================================
+# MOBILE - React Native + Expo
+# ============================================
+
+# Expo
+**/.expo/
+**/.expo-shared/
+**/dist/
+**/web-build/
+**/.expo-internal/
+
+# React Native
+**/android/app/build/
+**/android/.gradle/
+**/android/gradle/
+**/android/local.properties
+**/android/.idea/
+**/android/*.iml
+**/android/*.hprof
+
+**/ios/Pods/
+**/ios/build/
+**/ios/*.xcworkspace
+!**/ios/*.xcworkspace/contents.xcworkspacedata
+!**/ios/*.xcworkspace/xcshareddata
+**/ios/DerivedData/
+**/ios/*.xcuserstate
+**/ios/.xcode.env.local
+
+# Metro bundler
+**/.metro-health-check*
+**/.watchmanconfig
+
+# CocoaPods
+**/ios/Pods/
+**/ios/Podfile.lock
+
+# Gradle
+**/.gradle/
+**/gradle-wrapper.jar
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Bundle artifacts
+*.jsbundle
+
+# ============================================
+# DATABASE
+# ============================================
+
+# PostgreSQL
+**/postgres-data/
+**/pgdata/
+*.dump
+*.sql.gz
+*.backup
+
+# Redis
+**/redis-data/
+**/dump.rdb
+**/appendonly.aof
+
+# SQLite (Mobile offline)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Database backups
+**/backups/*.sql
+**/backups/*.dump
+
+# ============================================
+# DOCKER
+# ============================================
+docker-compose.override.yml
+**/volumes/
+**/.docker/
+
+# ============================================
+# INFRASTRUCTURE (Terraform / IaC)
+# ============================================
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfvars
+!example.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Pulumi
+**/Pulumi.*.yaml
+**/.pulumi/
+
+# ============================================
+# CI/CD
+# ============================================
+**/.github/workflows/*.secret
+**/.gitlab-ci-local/
+
+# ============================================
+# DOCUMENTATION
+# ============================================
+**/node_modules/
+**/.docusaurus/
+**/build/
+**/.cache/
+
+# ============================================
+# TESTING
+# ============================================
+**/__pycache__/
+**/*.pyc
+**/pytest_cache/
+**/.pytest_cache/
+
+# ============================================
+# EDITORS & IDEs
+# ============================================
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs
+.idea/*
+!.idea/runConfigurations/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# ============================================
+# OPERATING SYSTEM
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# TEMPORARY FILES
+# ============================================
+*.tmp
+*.temp
+*.swp
+*.bak
+*.cache
+*.orig
+*.rej
+*.swo
+
+# ============================================
+# LOGS
+# ============================================
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ============================================
+# MISC
+# ============================================
+.sass-cache/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+.grunt/
+.lock-wscript
+.npm
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.node_repl_history
+*.tgz
+.yarn-integrity
+.parcel-cache/
+.next/
+.nuxt/
+.cache/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ============================================
+# PROJECT SPECIFIC
+# ============================================
+
+# WayPoint specific temporary files
+**/temp-routes/
+**/cached-maps/
+**/export-data/
+
+# Development notes (if you keep them in repo)
+# NOTES.md
+# TODO.md
+# SCRATCH.md
+
+# ============================================
+# KEEP THESE FILES (Whitelist)
+# ============================================
+!.gitkeep
+!.gitignore
+!.editorconfig
+!.prettierrc
+!.eslintrc*
+!.env.example
+!example.env
+!.env.template
