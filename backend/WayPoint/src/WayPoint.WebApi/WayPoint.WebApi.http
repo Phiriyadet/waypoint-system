@@ -1,0 +1,6 @@
+@WayPoint.WebApi_HostAddress = http://localhost:5149
+
+GET {{WayPoint.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
