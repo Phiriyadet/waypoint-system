@@ -1,10 +1,8 @@
-namespace WayPoint.Domain.Common;
+﻿namespace WayPoint.Domain.Common;
 
 /// <summary>
-/// Marker interface to identify Aggregate Roots in DDD
-/// Only aggregate roots should have repositories
+/// Marker interface สำหรับ Aggregate Root
+/// Entity ที่ implement นี้คือจุดเดียวที่ภายนอกจะเข้าถึง aggregate ได้
+/// ใช้คู่กับ BaseEntity เสมอ
 /// </summary>
-public interface IAggregateRoot
-{
-    // Empty interface - used only as a marker
-}
+public interface IAggregateRoot { }

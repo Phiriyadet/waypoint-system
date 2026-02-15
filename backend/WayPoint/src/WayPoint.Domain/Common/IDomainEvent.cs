@@ -1,19 +1,15 @@
+﻿using MediatR;
+
 namespace WayPoint.Domain.Common;
 
 /// <summary>
-/// Base interface for all domain events
-/// Domain events represent something that happened in the domain
-/// that domain experts care about
+/// Marker interface สำหรับ Domain Events ทุกตัว
+/// Implement INotification ของ MediatR เพื่อให้ dispatch ผ่าน pipeline ได้
 /// </summary>
-public interface IDomainEvent
+public interface IDomainEvent : INotification
 {
-    /// <summary>
-    /// When the event occurred
-    /// </summary>
-    DateTime OccurredOn { get; }
-    
-    /// <summary>
-    /// Unique identifier for this event instance
-    /// </summary>
+    /// <summary>Unique identifier ของ Event</summary>
     Guid EventId { get; }
+    /// <summary>เวลาที่ Event เกิดขึ้น (UTC)</summary>
+    DateTime OccurredAt { get; }
 }
