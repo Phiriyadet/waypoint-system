@@ -18,8 +18,8 @@ public class Rider : BaseEntity
     /// <summary>เบอร์โทร format +66XXXXXXXXX ใช้ login</summary>
     public string Phone { get; private set; } = null!;
 
-    /// <summary>ประเภทยานพาหนะ เช่น Motorcycle, Car, Bicycle</summary>
-    public string VehicleType { get; private set; } = null!;
+    /// <summary>ประเภทยานพาหนะ (enum) - Motorcycle, Car, Bicycle, ElectricScooter</summary>
+    public VehicleType VehicleType { get; private set; }
 
     /// <summary>สถานะการทำงานปัจจุบัน</summary>
     public RiderStatus Status { get; private set; }
@@ -31,16 +31,16 @@ public class Rider : BaseEntity
     public DateTime? LastLocationUpdate { get; private set; }
 
     /// <summary>สร้าง Rider ใหม่ สถานะเริ่มต้น Offline</summary>
-    public static Rider Create(string name, string phone, string vehicleType)
+    public static Rider Create(string name, string phone, VehicleType vehicleType)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
         if (string.IsNullOrWhiteSpace(phone)) throw new ArgumentException("Phone is required.");
-        if (string.IsNullOrWhiteSpace(vehicleType)) throw new ArgumentException("VehicleType is required.");
+        
         return new Rider
         {
             Name = name.Trim(),
             Phone = phone.Trim(),
-            VehicleType = vehicleType.Trim(),
+            VehicleType = vehicleType,
             Status = RiderStatus.Offline
         };
     }
