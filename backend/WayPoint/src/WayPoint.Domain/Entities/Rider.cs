@@ -35,7 +35,6 @@ public class Rider : BaseEntity
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
         if (string.IsNullOrWhiteSpace(phone)) throw new ArgumentException("Phone is required.");
-        
         return new Rider
         {
             Name = name.Trim(),

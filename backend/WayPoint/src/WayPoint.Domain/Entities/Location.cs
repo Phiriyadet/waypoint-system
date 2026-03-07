@@ -67,13 +67,69 @@ public class Location : BaseEntity
             ? ConfidenceScore.Increase(10)
             : ConfidenceScore.Increase(1);
         SetUpdatedAt();
-        AddDomainEvent(new LocationVerifiedEvent(Id, actualCoordinate, ConfidenceScore, ConfidenceLevel));
+        AddDomainEvent(new LocationVerifiedEvent(Id, VerifiedCoordinate, ConfidenceScore, ConfidenceLevel));
     }
 
     /// <summary>อัปเดต access notes จาก rider feedback หลังจัดส่ง</summary>
     public void UpdateAccessNotes(string notes)
     {
         AccessNotes = notes?.Trim();
+        SetUpdatedAt();
+    }
+
+    /// <summary>
+    /// เรียนรู้จาก GPS ที่ได้จริงขณะจัดส่ง และตัดสินใจว่าควรทำอะไร
+    /// ✅ ทุก business logic และ calculation อยู่ใน Domain
+    /// </summary>
+    public LocationLearningResult LearnFromDelivery(Point actualCoordinate, GpsAccuracy accuracy)
+    {
+        ArgumentNullException.ThrowIfNull(actualCoordinate);
+        ArgumentNullException.ThrowIfNull(accuracy);
+
+        // ✅ คำนวณ offset ระหว่างพิกัดที่ geocode ไว้ vs GPS จริง
+        var distanceDeg = Coordinate.Distance(actualCoordinate);
+        var latRad = actualCoordinate.Y * Math.PI / 180.0;
+        var offsetMeters = distanceDeg * 111_320 * Math.Cos(latRad);
+
+        // ✅ Business rules: ตรวจสอบความแม่นยำและ offset
+        var isHighAccuracy = accuracy.IsHighAccuracy; // < 20m
+        var isSignificantOffset = offsetMeters > 50;
+
+        if (isSignificantOffset && isHighAccuracy)
+        {
+            // GPS แม่นยำสูงและห่างจากที่ geocode มาก → ควรอัปเดต verified coordinate
+            DeliveryCount++;
+            SetUpdatedAt();
+
+            return new LocationLearningResult
+            {
+                ShouldUpdateVerifiedCoordinate = true,
+                NewCoordinate = actualCoordinate,
+                OffsetMeters = offsetMeters
+            };
+        }
+        else
+        {
+            // Offset น้อย หรือ GPS ไม่แม่นยำพอ → แค่เพิ่ม confidence score
+            IncrementConfidenceScore();
+            DeliveryCount++;
+            SetUpdatedAt();
+
+            return new LocationLearningResult
+            {
+                ShouldUpdateVerifiedCoordinate = false,
+                NewCoordinate = actualCoordinate,
+                OffsetMeters = offsetMeters
+            };
+        }
+    }
+
+    /// <summary>
+    /// เพิ่ม confidence score ขึ้น 1 คะแนน (ใช้เมื่อ GPS ตรงกับ geocoded location)
+    /// </summary>
+    public void IncrementConfidenceScore()
+    {
+        ConfidenceScore = ConfidenceScore.Increase(1);
         SetUpdatedAt();
     }
 
@@ -92,5 +148,16 @@ public class Location : BaseEntity
             <= 90 => LocationConfidenceLevel.High,
             _ => LocationConfidenceLevel.Verified
         };
+    }
+
+    /// <summary>
+    /// Result object จาก Location.LearnFromDelivery()
+    /// บอกว่า Handler ควรทำอะไรต่อ
+    /// </summary>
+    public class LocationLearningResult
+    {
+        public bool ShouldUpdateVerifiedCoordinate { get; init; }
+        public Point NewCoordinate { get; init; } = null!;
+        public double OffsetMeters { get; init; }
     }
 }

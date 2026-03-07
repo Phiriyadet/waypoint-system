@@ -65,37 +65,66 @@ public class Delivery : BaseEntity, IAggregateRoot
         return delivery;
     }
 
-    /// <summary>มอบหมาย Rider เปลี่ยนสถานะเป็น Assigned</summary>
-    public void AssignRider(Guid riderId)
+    /// <summary>
+    /// มอบหมาย Rider เปลี่ยนสถานะเป็น Assigned
+    /// ✅ ตรวจสอบ rider availability และ business rules
+    /// </summary>
+    public Result AssignRider(Guid riderId, Rider rider)
     {
+        if (rider.Status != RiderStatus.Available)
+            return Result.Failure("ไรเดอร์ไม่อยู่ในสถานะ Available");
+
         if (Status != DeliveryStatus.Pending)
-            throw new InvalidOperationException($"ไม่สามารถ assign rider ได้เมื่อสถานะเป็น {Status}");
+            return Result.Failure($"ไม่สามารถ assign rider ได้เมื่อสถานะเป็น {Status}");
+
         RiderId = riderId;
         Status = DeliveryStatus.Assigned;
         _logs.Add(DeliveryLog.Create(Id, DeliveryEventType.Assigned));
         SetUpdatedAt();
+        AddDomainEvent(new DeliveryAssignedEvent(Id, riderId));
+
+        return Result.Success();
     }
 
-    /// <summary>บันทึกว่า Rider กำลังเดินทางไปส่ง</summary>
-    public void StartDelivery()
+    /// <summary>
+    /// บันทึกว่า Rider กำลังเดินทางไปส่ง
+    /// ✅ ตรวจสอบ authorization และ state transition
+    /// </summary>
+    public Result StartDelivery(Guid requestingRiderId)
     {
+        if (RiderId != requestingRiderId)
+            return Result.Failure("ไม่ใช่ไรเดอร์ที่รับผิดชอบ Delivery นี้");
+
         if (Status != DeliveryStatus.Assigned)
-            throw new InvalidOperationException($"ไม่สามารถเริ่มจัดส่งได้เมื่อสถานะเป็น {Status}");
+            return Result.Failure($"ไม่สามารถเริ่มจัดส่งได้เมื่อสถานะเป็น {Status}");
+
         Status = DeliveryStatus.InTransit;
         _logs.Add(DeliveryLog.Create(Id, DeliveryEventType.InTransit));
         SetUpdatedAt();
+        AddDomainEvent(new DeliveryStartedEvent(Id, RiderId.Value));
+
+        return Result.Success();
     }
 
     /// <summary>
     /// บันทึกการจัดส่งสำเร็จพร้อม GPS จริง
+    /// ✅ ตรวจสอบ authorization ก่อน complete
     /// Raise DeliveryCompletedEvent เพื่อ trigger LocationLearningService
     /// </summary>
-    public void Complete(Point actualCoordinate, GpsAccuracy accuracy)
+    public Result Complete(Guid requestingRiderId, Point actualCoordinate, GpsAccuracy accuracy)
     {
+        if (RiderId != requestingRiderId)
+            return Result.Failure("ไม่ใช่ไรเดอร์ที่รับผิดชอบ Delivery นี้");
+
         if (Status == DeliveryStatus.Completed)
-            throw new DeliveryAlreadyCompletedException(Id);
+            return Result.Failure($"Delivery with ID '{Id}' has already been completed.");
+
+        if (Status != DeliveryStatus.InTransit)
+            return Result.Failure("Delivery must be InTransit to complete");
+
         ArgumentNullException.ThrowIfNull(actualCoordinate);
         ArgumentNullException.ThrowIfNull(accuracy);
+
         ActualDeliveryCoordinate = actualCoordinate;
         GpsAccuracy = accuracy;
         Status = DeliveryStatus.Completed;
@@ -103,6 +132,8 @@ public class Delivery : BaseEntity, IAggregateRoot
         _logs.Add(DeliveryLog.Create(Id, DeliveryEventType.Completed));
         SetUpdatedAt();
         AddDomainEvent(new DeliveryCompletedEvent(Id, LocationId, actualCoordinate, accuracy));
+
+        return Result.Success();
     }
 
     /// <summary>ยกเลิก Delivery พร้อมระบุเหตุผล</summary>
