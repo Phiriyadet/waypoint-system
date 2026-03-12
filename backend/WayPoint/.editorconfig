@@ -1,0 +1,60 @@
+# บอกให้ Editor รู้ว่านี่คือไฟล์ตั้งค่าหลัก
+root = true
+
+# ตั้งค่าพื้นฐานสำหรับทุกไฟล์
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# ตั้งค่าเฉพาะไฟล์ C# (.cs)
+[*.cs]
+
+#### 1. Namespace Settings (จุดที่คุณเน้น) ####
+# บังคับใช้ File-scoped namespaces (C# 10+)
+csharp_style_namespace_declarations = file_scoped:error
+
+# บังคับให้เว้นบรรทัดว่าง 1 บรรทัดหลัง Namespace (และระหว่าง Member)
+csharp_style_blank_lines_between_consecutive_methods = 1
+csharp_style_blank_lines_between_declarations = 1
+
+#### 2. Organizing Usings ####
+# เรียงลำดับ System usings ไว้ก่อนอันอื่น
+dotnet_sort_system_directives_first = true
+# เว้นบรรทัดระหว่างกลุ่มของ Using
+dotnet_separate_import_directive_groups = true
+
+#### 3. Coding Style (Clean Code Rules) ####
+# บังคับใช้ 'var' เมื่อประเภทตัวแปรชัดเจน
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+
+# บังคับการใช้ Expression-bodied members สำหรับ Method สั้นๆ (เหมาะกับ Mapper)
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+
+# บังคับใช้ Read-only สำหรับ field ที่ไม่ได้เปลี่ยนค่า (เช่นใน Handlers)
+dotnet_style_readonly_field = true:error
+
+#### 4. Formatting (Spacing & Braces) ####
+# ปีกกา { } ต้องขึ้นบรรทัดใหม่เสมอ (Allman style)
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# ช่องว่าง (Spacing)
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+#### 5. Naming Conventions ####
+# Interface ต้องขึ้นต้นด้วย I
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = error
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface_symbols
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begin_with_i_style
+
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_style.begin_with_i_style.required_prefix = I
