@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 
+using WayPoint.Application.Common.Interfaces.Repositories;
+using WayPoint.Domain.Entities;
 using WayPoint.Infrastructure.Data;
 
 namespace WayPoint.Infrastructure.Identity;
 
-public class RefreshTokenRepository
+public class RefreshTokenRepository : IRefreshTokenRepository
 {
     private readonly ApplicationDbContext _context;
 
