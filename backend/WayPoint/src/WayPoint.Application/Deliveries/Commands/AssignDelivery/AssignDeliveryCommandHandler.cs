@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+
 using WayPoint.Application.Common.Interfaces.Repositories;
 using WayPoint.Application.Common.Mappings;
 using WayPoint.Application.Deliveries.DTOs;
@@ -7,14 +8,14 @@ using WayPoint.Domain.Exceptions;
 
 namespace WayPoint.Application.Deliveries.Commands.AssignRider;
 
-public class AssignRiderCommandHandler : IRequestHandler<AssignRiderCommand, Result<DeliveryDto>>
+public class AssignDeliveryCommandHandler : IRequestHandler<AssignDeliveryCommand, Result<DeliveryDto>>
 
 {
     private readonly IDeliveryRepository _deliveryRepo;
     private readonly IRiderRepository _riderRepo;
     private readonly DeliveryMapper _mapper;
 
-    public AssignRiderCommandHandler(
+    public AssignDeliveryCommandHandler(
         IDeliveryRepository deliveryRepo,
         IRiderRepository riderRepo,
         DeliveryMapper mapper)
@@ -25,7 +26,7 @@ public class AssignRiderCommandHandler : IRequestHandler<AssignRiderCommand, Res
     }
 
     public async Task<Result<DeliveryDto>> Handle(
-    AssignRiderCommand request, CancellationToken ct)
+    AssignDeliveryCommand request, CancellationToken ct)
     {
         var delivery = await _deliveryRepo.GetByIdAsync(request.DeliveryId, ct)
         ?? throw new DeliveryNotFoundException(request.DeliveryId);

@@ -1,10 +1,10 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace WayPoint.Application.Deliveries.Commands.AssignRider;
 
-public class AssignRiderCommandValidator : AbstractValidator<AssignRiderCommand>
+public class AssignDeliveryCommandValidator : AbstractValidator<AssignDeliveryCommand>
 {
-    public AssignRiderCommandValidator()
+    public AssignDeliveryCommandValidator()
     {
         RuleFor(x => x.DeliveryId).NotEmpty();
         RuleFor(x => x.RiderId).NotEmpty();
