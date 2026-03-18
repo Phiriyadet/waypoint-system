@@ -11,6 +11,7 @@ using WayPoint.Application.Common.Interfaces.Auth;
 using WayPoint.Application.Common.Interfaces.ExternalServices;
 using WayPoint.Application.Common.Interfaces.Infrastructure;
 using WayPoint.Application.Common.Interfaces.Repositories;
+using WayPoint.Domain.Entities;
 using WayPoint.Infrastructure.Data;
 using WayPoint.Infrastructure.Data.Interceptors;
 using WayPoint.Infrastructure.Data.Repositories;
@@ -57,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryRepository, DeliveryRepository>();
         services.AddScoped<IRiderRepository, RiderRepository>();
         services.AddScoped<IRouteRepository, RouteRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
         // ==========================================
         // IDENTITY & AUTHENTICATION
@@ -116,7 +118,9 @@ public static class DependencyInjection
         // Identity services
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddHttpContextAccessor();
+
 
         // ==========================================
         // CACHING (REDIS)
