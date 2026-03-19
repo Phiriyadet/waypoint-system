@@ -1,4 +1,4 @@
-namespace WayPoint.Infrastructure.Identity;
+namespace WayPoint.Domain.Entities;
 
 /// <summary>
 /// Entity for storing refresh tokens in database

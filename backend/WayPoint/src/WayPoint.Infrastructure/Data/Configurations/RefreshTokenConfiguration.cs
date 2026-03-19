@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using WayPoint.Infrastructure.Identity;
+using WayPoint.Domain.Entities;
 
 namespace WayPoint.Infrastructure.Data.Configurations;
 
