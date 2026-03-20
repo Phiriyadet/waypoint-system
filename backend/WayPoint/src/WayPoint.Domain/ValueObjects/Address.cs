@@ -45,8 +45,11 @@ public sealed record Address
         if (string.IsNullOrWhiteSpace(province)) throw new ArgumentException("Province is required.");
         if (string.IsNullOrWhiteSpace(postalCode) || postalCode.Length != 5 || !postalCode.All(char.IsDigit))
             throw new InvalidCoordinateException("PostalCode must be exactly 5 digits.");
-        return new Address(addressInfo.Trim(), subdistrict.Trim(),
-            district.Trim(), province.Trim(), postalCode.Trim(), moreInfo?.Trim());
+
+        return new Address(
+            addressInfo.Trim(), subdistrict.Trim(),
+            district.Trim(), province.Trim(),
+            postalCode.Trim(), moreInfo?.Trim());
     }
 
     /// <summary>คืนที่อยู่สำหรับส่งไป geocoder — ไม่รวม MoreInfo</summary>
