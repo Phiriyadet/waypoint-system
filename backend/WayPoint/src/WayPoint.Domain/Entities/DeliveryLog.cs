@@ -24,7 +24,10 @@ public class DeliveryLog : BaseEntity
     /// <summary>หมายเหตุเพิ่มเติม เช่น "ผู้รับไม่อยู่บ้าน" (optional)</summary>
     public string? Note { get; private set; }
 
-    /// <summary>สร้าง log entry ใหม่ — เรียกจาก Delivery methods เท่านั้น</summary>
+
+    /// <summary>
+    /// สร้าง instance ใหม่ของ DeliveryLog โดยระบุ deliveryId, eventType และ optional note
+    /// </summary>
     internal static DeliveryLog Create(
         Guid deliveryId, DeliveryEventType eventType, string? note = null)
         => new()
